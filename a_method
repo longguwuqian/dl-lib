@@ -1,0 +1,1 @@
+THIS(var, func, x, y, z) --> var->func(&(var), x, y, z)
