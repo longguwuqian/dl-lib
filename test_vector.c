@@ -17,6 +17,8 @@ int main()
     for (i = 0; i < v.size(&v); i++) {
         printf("v[%d] = %d\n", i, v.at(&v, i));
     }
+    v.update(&v, 3, 90);
+    printf("now, v[3] = %d\n", v.at(&v, 3));
     v.clear(&v);
     printf("now, v.size = %d\n", v.size(&v));
     v.destroy(&v);
