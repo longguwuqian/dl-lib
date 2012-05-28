@@ -118,6 +118,6 @@
     dl_vector_##name var;
 
 #define DL_VECTOR_INIT(name, pvar) \
-    dl_vector_##name##_init(pvar)
+    dl_vector_##name##_init(pvar);
 
 #endif
