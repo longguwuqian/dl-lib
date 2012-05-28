@@ -25,7 +25,7 @@
     STATUS dl_stack_##name##_init(dl_stack_##name *s); \
     int dl_stack_##name##_size(const dl_stack_##name *s); \
     type *dl_stack_##name##_top(const dl_stack_##name *s); \
-    void dl_stack_##name##_push(struct __dl_stack_##name *s, const type elem); \
+    void dl_stack_##name##_push(dl_stack_##name *s, const type elem); \
     void dl_stack_##name##_pop(dl_stack_##name *s); \
     void dl_stack_##name##_clear(dl_stack_##name *s); \
     void dl_stack_##name##_destroy(dl_stack_##name *s); \
@@ -54,7 +54,7 @@
     } \
     type *dl_stack_##name##_top(const dl_stack_##name## *s) \
     { \
-        return s-__top; \
+        return s->_top; \
     } \
     void dl_stack_##name##_push(dl_stack_##name## *s, type elem) \
     { \
