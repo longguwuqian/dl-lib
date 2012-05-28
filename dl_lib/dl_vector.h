@@ -17,13 +17,17 @@
     	type (*at)(const struct __dl_vector_##name *v, int index); \
     	STATUS (*update)(struct __dl_vector_##name *v, int index, type data); \
     	STATUS (*erase)(struct __dl_vector_##name *v, int index); \
-    	STATUS (*push_back)(struct __dl_vector_##name *v, type data); \
+    	void (*push_back)(struct __dl_vector_##name *v, type data); \
+        void (*pop_back)(struct __dl_vector_##name *v); \
+        int (*empty)(const struct __dl_vector_##name *v); \
     	void (*clear)(struct __dl_vector_##name *v); \
     	int (*size)(const struct __dl_vector_##name *v); \
     	void (*destroy)(struct __dl_vector_##name *v); \
      } dl_vector_##name; \
     STATUS dl_vector_##name##_init(dl_vector_##name *v); \
-    STATUS dl_vector_##name##_push_back(dl_vector_##name *v, type data); \
+    void dl_vector_##name##_push_back(dl_vector_##name *v, type data); \
+    void dl_vector_##name##_pop_back(dl_vector_##name *v); \
+    int    dl_vector_##name##_empty(const dl_vector_##name *v); \
     STATUS dl_vector_##name##_update(dl_vector_##name *v, int index, type data); \
     STATUS dl_vector_##name##_erase(dl_vector_##name *v, int index); \
     void   dl_vector_##name##_clear(dl_vector_##name *v); \
@@ -40,6 +44,8 @@
     	CHECK_MALLOC(v->_buffer); \
     	v->array = v->_buffer; \
     	v->push_back = dl_vector_##name##_push_back; \
+        v->pop_back = dl_vector_##name##_pop_back; \
+        v->empty = dl_vector_##name##_empty; \
     	v->at = dl_vector_##name##_at; \
     	v->size = dl_vector_##name##_size; \
     	v->update = dl_vector_##name##_update; \
@@ -48,7 +54,7 @@
     	v->destroy = dl_vector_##name##_destroy; \
     	return SUCCESS; \
     } \
-    STATUS dl_vector_##name##_push_back(dl_vector_##name *v, type data) \
+    void dl_vector_##name##_push_back(dl_vector_##name *v, type data) \
     { \
     	static int new_size; \
     	static type *old_buffer; \
@@ -64,7 +70,14 @@
     	    v->_buffer_size = new_size; \
     	} \
     	v->_buffer[(v->_size)++] = data; \
-    	return SUCCESS; \
+    } \
+    void dl_vector_##name##_pop_back(dl_vector_##name *v) \
+    { \
+        if (v->_size != 0) v->_size--; \
+    }\
+    int dl_vector_##name##_empty(const dl_vector_##name *v) \
+    { \
+        return v->_size == 0 ? 1 : 0; \
     } \
     type dl_vector_##name##_at(const dl_vector_##name *v, int index) \
     { \
