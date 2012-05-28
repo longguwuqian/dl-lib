@@ -45,6 +45,36 @@
         s->destroy = dl_stack_##name##_destroy; \
         return SUCCESS; \
     } \
+    int dl_stack_##name##_size(const dl_stack_##name## *s) \
+    { \
+        return s->_size; \
+    } \
+    type *dl_stack_##name##_top(const dl_stack_##name## *s) \
+    { \
+        return s-__top; \
+    } \
+    type *dl_stack_##name##_push(dl_stack_##name## *s, type elem) \
+    { \
+        static type *old_buffer; \
+        static int new_size; \
+        if (s->_size >= s->_buffer_size) { \
+            new_size = s->_buffer_size + DL_STACK_INC_SIZE; \
+            old_buffer = s->_base; \
+            s->_base = realloc(s->_base, sizeof(type) * new_size); \
+            if (s->_base == NULL) { \
+                free(old_buffer); \
+                exit(EXIT_FAILURE); \
+            } \
+            s->_buffer_size = new_size; \
+        } \
+        s->_top++; \
+        *(s->_top) = elem; \
+        s->_size++; \
+        return SUCCESS; \
+    } \
     
+
+
+
 
 
