@@ -1,15 +1,12 @@
 #include <stdio.h>
 
-#include "dl_lib/dl_vector.h"
-#include "dl_lib/dl_stack.h"
-
-DL_VECTOR_TEMPLATE(vector_t, int)
+#include "test_vector.h"
 
 int main()
 {
-    DL_VECTOR(vector_t, v)
+    vector_t v;
     int i;
-    DL_VECTOR_INIT(vector_t, &v)
+    vector_t_init(&v);
     for (i = 0; i < 10; i++) {
         v.push_back(&v, i);
     }
